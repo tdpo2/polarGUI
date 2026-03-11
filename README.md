@@ -143,7 +143,7 @@ end
 - Search functionality now includes subdirectory names, not just filenames
 - The DELETE operation permanently removes files from the device
 
-
+## ORIGINAL README:
 
 ## Synopsis
 A set of command line tools written in Ruby to interact with Polar watches and decode raw data files.
