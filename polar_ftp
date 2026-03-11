@@ -8,6 +8,7 @@ def usage
   puts "  #{__FILE__} [options] DIR <directory>"
   puts "  #{__FILE__} [options] GET <file> [<output_file>]"
   puts "  #{__FILE__} [options] SYNC [<output_dir>]"
+  puts "  #{__FILE__} [options] DELETE <path>"
   puts
   puts "Options:"
   puts "    -d, --dev=DEVICE                 Serial port device (for Polar Ignite, Vantage...)"
@@ -62,6 +63,16 @@ when 'GET'
 
 when 'SYNC'
   polar_ftp.sync(ARGV[1])
+
+when 'DELETE'
+  # Delete file or directory
+  remote_path = ARGV[1]
+  unless remote_path
+    usage
+    exit -2
+  end
+
+  polar_ftp.delete(remote_path)
 
 else
   usage
