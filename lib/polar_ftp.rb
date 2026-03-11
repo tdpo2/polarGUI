@@ -62,6 +62,27 @@ class PolarFtp
     FileUtils.mv(output_file_part, output_file)
   end
 
+  def delete(remote_path)
+    puts "Deleting '#{remote_path}'"
+
+    msg = PolarProtocol::PbPFtpOperation.encode(
+      PolarProtocol::PbPFtpOperation.new(
+        command: PolarProtocol::PbPFtpOperation::Command::REMOVE,
+        path: remote_path))
+
+    result = @polar_cnx.request(
+      [ msg.length & 255, msg.length >> 8 ].pack("C*") + msg)
+
+    # Check result for success/failure
+    if result[0] == "\x00"
+      puts "Error. Delete failed?"
+      return false
+    end
+
+    puts "Successfully deleted '#{remote_path}'"
+    true
+  end
+
   def sync(local_dir_root = nil)
     local_dir_root ||= File.expand_path(File.join("~", "Polar", @polar_cnx.serial_number))
 
